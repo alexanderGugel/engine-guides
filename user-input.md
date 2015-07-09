@@ -7,7 +7,45 @@ There have been some recent API changes and we are working to rewrite the guides
 
 To avoid this problem in the future, we are also working on versioned guides/docs. We apologize for the inconvenience. 
 
+In the meantime, we have included several examples below.
 
+## Events
+
+DOM events bubble up to the scene graph and custom events are emitted down. See the examples below.
+
+## Simple Click Example
+
+<iframe src='https://famous.org/examples/index.html?block=click&detail=false&header=false' scrolling='no' class='code-block' allowtransparency='true'></iframe>
+
+Events are picked up on the node where the DOM element is attached. Use the `.addUIEvent()` method on the node. 
+
+## Event Bubbling up to Parent Example
+
+<iframe src='https://famous.org/examples/index.html?block=bubbleup&detail=false&header=false' scrolling='no' class='code-block' allowtransparency='true'></iframe>
+
+DOM events are also caught by all nodes above the node where `.addUIEvent()` is called. 
+
+## Custom Events Example
+
+<iframe src='https://famous.org/examples/index.html?block=hello-famous&detail=false&header=false' scrolling='no' class='code-block' allowtransparency='true'></iframe>
+
+Custom events are picked up by all nodes below the node that is emitting an event. Use the node's `this.emit()` method to send an event.
+
+
+## Sibling Events
+
+
+<iframe src='https://famous.org/examples/index.html?block=siblingnodes&detail=false&header=false' scrolling='no' class='code-block' allowtransparency='true'></iframe>
+
+To send an event to a sibling node, you need to send the event up to the parent and then emit and event down. 
+
+## Drag and Drop 
+
+<iframe src='https://famous.org/examples/index.html?block=hdrag&detail=false&header=false' scrolling='no' class='code-block' allowtransparency='true'></iframe>
+
+Drag and drop is easy to set up with a Gesture Handler. 
+
+## Stay tuned for more examples!
 
 <!-- Handling user input is a central component of every non-trivial application.
 Building applications in Famous is no exception.
