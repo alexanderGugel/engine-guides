@@ -3,49 +3,72 @@ layout: default
 title: User input
 ---
 
-There have been some recent API changes and we are working to rewrite the guides here ASAP. 
+ Traditional DOM events are used to handle user input and relay that info back to the nodes in the scene. In Famous, DOM events bubble up the scene graph and program events are emitted down.
 
-To avoid this problem in the future, we are also working on versioned guides/docs. We apologize for the inconvenience. 
+## Clicks
 
-In the meantime, we have included several examples below.
+A key DOM event is the click. Here we add a `'click'` listener to `node` and an '.onReceive()' method to handle it. 
 
-## Events
+<iframe src='https://famous.org/examples/index.html?block=click&detail=false&header=false' style="width:100%;height:600px; margin: 15px 0px 25px 0px" scrolling='no' class='code-block' allowtransparency='true'></iframe>
 
-DOM events bubble up to the scene graph and custom events are emitted down. See the examples below.
-
-## Simple Click Example
-
-<iframe src='https://famous.org/examples/index.html?block=click&detail=false&header=false' scrolling='no' class='code-block' allowtransparency='true'></iframe>
-
-Events are picked up on the node where the DOM element is attached. Use the `.addUIEvent()` method on the node. 
-
-## Event Bubbling up to Parent Example
-
-<iframe src='https://famous.org/examples/index.html?block=bubbleup&detail=false&header=false' scrolling='no' class='code-block' allowtransparency='true'></iframe>
-
-DOM events are also caught by all nodes above the node where `.addUIEvent()` is called. 
-
-## Custom Events Example
-
-<iframe src='https://famous.org/examples/index.html?block=hello-famous&detail=false&header=false' scrolling='no' class='code-block' allowtransparency='true'></iframe>
-
-Custom events are picked up by all nodes below the node that is emitting an event. Use the node's `this.emit()` method to send an event.
+Events are picked up on the node where the DOM element is attached. The `.addUIEvent()` method accepts the DOM event name passed in as a string (`'click'`). Adding an `.onReceive()` method to the node (or component attached to the node) will pick up all events. 
 
 
-## Sibling Events
+## Event Bubbling
+
+DOM events bubble up the scene graph. All "parent" nodes in the scene graph receive their own and all of their children's events by adding an `.onReceive()` method. 
+
+<iframe src='https://famous.org/examples/index.html?block=bubbleup&detail=false&header=false' style="width:100%;height:600px; margin: 15px 0px 25px 0px" scrolling='no' class='code-block' allowtransparency='true'></iframe>
+
+Additionally, components with an `.onReceive()` method can receive all of the same events from the node where they are attached.
+
+    node.addComponent({
+        onReceive: function(event, payload){
+           // This will receive all DOM events from `node`
+           // and all child nodes below it  
+        }
+    })
+
+## .onReceive()
+
+When added to a node or component, the `.onReceive()` method is called whenever an event passes through the node. The method gives access to the event name (as a string) and an event object containing detailed information about the event.
+
+    node.addComponent({
+        onReceive: function(event, payload){
+           // Access the node where event 
+           // originated from with --> payload.node
+        }
+    })
+
+Among other information, the event object ( named `payload` above ) gives access to the node where the event originated. 
 
 
-<iframe src='https://famous.org/examples/index.html?block=siblingnodes&detail=false&header=false' scrolling='no' class='code-block' allowtransparency='true'></iframe>
+## Custom Events
 
-To send an event to a sibling node, you need to send the event up to the parent and then emit and event down. 
+Nodes can emit custom events down the scene graph using the `.emit()` method. The emit method accepts an event name as a string and a payload object as its two arguments.
 
-## Drag and Drop 
+<iframe src='https://famous.org/examples/index.html?block=customevent&detail=false&header=false'  style="width:100%;height:600px; margin: 15px 0px 25px 0px" scrolling='no' class='code-block' allowtransparency='true'></iframe>
 
-<iframe src='https://famous.org/examples/index.html?block=hdrag&detail=false&header=false' scrolling='no' class='code-block' allowtransparency='true'></iframe>
+Events are sent to all child nodes (and all attached components) with an `.onReceive()` method. It is important to note that events cannot be emitted up the scene graph. 
 
-Drag and drop is easy to set up with a Gesture Handler. 
 
-## Stay tuned for more examples!
+## Drag and Drop
+
+Drag and drop functionality is easy to acheive with a Gesture Handler.
+
+<iframe src='https://famous.org/examples/index.html?block=drag&detail=false&header=false' style="width:100%;height:600px; margin: 15px 0px 25px 0px" scrolling='no' class='code-block' allowtransparency='true'></iframe>
+
+ Read more at the [Gesture Handler](gesture-handler.html) section.
+
+## Input Elements and Drag
+
+Here we demonstrate several event types working together including grabbing input from a `<textarea>`.
+
+<iframe src='https://famous.org/examples/index.html?block=draginput&detail=false&header=false' style="width:100%;height:600px; margin: 15px 0px 25px 0px" scrolling='no' class='code-block' allowtransparency='true'></iframe>
+
+Click the grey square and type something in to see it in action!
+
+
 
 <!-- Handling user input is a central component of every non-trivial application.
 Building applications in Famous is no exception.
