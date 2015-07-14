@@ -43,7 +43,7 @@ Providing the options parameter with a `detail` property determines the amount o
 
 Famous gives us a number of pre-made Geometries called Primitives. Primitives range from simple shapes like the Sphere above to more complex ones including Icosahedrons and Parametric cones.
 
-Currently, Famou.s give us the following Primitives:
+Currently, Famous give us the following Primitives:
 
   - Box
   - Circle
